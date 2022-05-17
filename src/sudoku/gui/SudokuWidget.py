@@ -3,6 +3,8 @@ from sudoku.core import sudoku_grid
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class SudokuWidget(QtWidgets.QWidget):
+    solved = QtCore.pyqtSignal(bool)
+
     def __init__(
         self,
         parent: QtWidgets.QWidget = None,
@@ -104,5 +106,10 @@ class SudokuWidget(QtWidgets.QWidget):
 
     @QtCore.pyqtSlot()
     def solve(self) -> None:
-        self.grid.solve()
+        try:
+            self.grid.solve()
+            self.solved.emit(True)
+        except RuntimeError:
+            self.solved.emit(False)
+
         self.update_widget_content()
