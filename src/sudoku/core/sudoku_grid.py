@@ -82,6 +82,11 @@ class sudoku_grid:
         else:
             return value in self.get_square_iter(i)
 
+    def could_be_in(self, value: int, i: int) -> bool:
+        return not self.is_in_column(value, i) and \
+            not self.is_in_row(value, i) and \
+            not self.is_in_square(value, i)
+
     def is_empty(self) -> bool:
         for i in self.grid:
             if i != 0:
@@ -128,12 +133,7 @@ class sudoku_grid:
 
         for i in tmp.get_empty_cells():
             for val in range(1, 10):
-                if (
-                    not tmp.is_in_column(val, i) and
-                    not tmp.is_in_row(val, i) and
-                    not tmp.is_in_square(val, i)
-                ):
-
+                if tmp.could_be_in(val, i):
                     allowed_values.setdefault(i, []).append(val)
 
         selected_cells = []
@@ -149,12 +149,7 @@ class sudoku_grid:
             try:
                 val = next(selected_cells[i][1])
 
-                if (
-                    not tmp.is_in_column(val, grid_index) and
-                    not tmp.is_in_row(val, grid_index) and
-                    not tmp.is_in_square(val, grid_index)
-                ):
-
+                if tmp.could_be_in(val, grid_index):
                     tmp.grid[grid_index] = val
 
                     i += 1
