@@ -1,9 +1,10 @@
+from sudoku.core.iterators import *
+
 from copy import deepcopy
-from iterators import *
 import itertools
 
 class sudoku_grid:
-    strgrid = \
+    str_grid = \
 """
 +-----------+-----------+-----------+
 | 0   0   0 | 0   0   0 | 0   0   0 |
@@ -26,7 +27,7 @@ class sudoku_grid:
 +-----------+-----------+-----------+
 """
 
-    def __init__(self, grid: list[int]) -> None:
+    def __init__(self, grid: list[int] = [0] * 81) -> None:
         for i in grid:
             if i > 9:
                 raise ValueError(
@@ -40,7 +41,7 @@ class sudoku_grid:
         ret     = ""
         grid_it = iter(self.grid)
 
-        for i in self.strgrid:
+        for i in self.str_grid:
             if i == "0":
                 ret += str(next(grid_it))
             else:
