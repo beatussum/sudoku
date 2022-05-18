@@ -1,5 +1,6 @@
 from sudoku.core import sudoku_grid
 
+from math import floor
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class SudokuWidget(QtWidgets.QWidget):
@@ -28,7 +29,7 @@ class SudokuWidget(QtWidgets.QWidget):
 
                 font = w.font()
                 font.setBold(True)
-                font.setPointSize(font.pointSize() * 1.6)
+                font.setPointSize(floor(font.pointSize() * 1.6))
 
                 w.setFont(font)
 
