@@ -265,6 +265,9 @@ class sudoku_grid:
                 if tmp.could_be_in(val, i):
                     allowed_values.setdefault(i, []).append(val)
 
+        allowed_values = \
+            {k: v for k, v in sorted(allowed_values.items(), key = lambda a: len(a[1]))}
+
         """
         On initialise une liste dont chaque élement suit le schéma suivant :
 
