@@ -6,26 +6,60 @@ __all__ = ["column_iterator", "row_iterator", "square_iterator"]
 T = TypeVar("T")
 
 class column_iterator:
-    def __init__(self, iter: Iterator[T]) -> None:
-        self.iter  = iter
-        self.start = True
+    """
+    Une classe permettant l'itération sur une colonne d'une grille de sudoku,
+    cette dernière étant représentée comme un tableau à une dimension.
+    """
+
+    def __init__(self, iter: Iterator[T], counter: int = -1) -> None:
+        """
+        Initialise `self`.
+
+        Arguments :
+
+            iter - Un itérateur de la grille de sudoku.
+
+            counter - Spécifie que `iter` pointe vers le `counter`-ième élément
+            de la colonne.
+        """
+
+        self.iter    = iter
+        self.counter = counter
 
     def __iter__(self: "column_iterator") -> "column_iterator":
         return self
 
     def __next__(self) -> T:
-        if not self.start:
+        if self.counter != -1:
             for _ in range(8):
                 next(self.iter)
-        else:
-            self.start = False
+        elif self.counter == 8:
+            raise StopIteration
+
+        self.counter += 1
 
         return next(self.iter)
 
 class row_iterator:
-    def __init__(self, iter: Iterator[T]) -> None:
+    """
+    Une classe permettant l'itération sur une ligne d'une grille de sudoku,
+    cette dernière étant représentée comme un tableau à une dimension.
+    """
+
+    def __init__(self, iter: Iterator[T], counter: int = -1) -> None:
+        """
+        Initialise `self`.
+
+        Arguments :
+
+            iter - Un itérateur de la grille de sudoku.
+
+            counter - Spécifie que `iter` pointe vers le `counter`-ième élément
+            de la ligne.
+        """
+
         self.iter    = iter
-        self.counter = -1
+        self.counter = counter
 
     def __iter__(self: "row_iterator") -> "row_iterator":
         return self
@@ -39,7 +73,23 @@ class row_iterator:
         return next(self.iter)
 
 class square_iterator:
+    """
+    Une classe permettant l'itération sur un carré d'une grille de sudoku,
+    cette dernière étant représentée comme un tableau à une dimension.
+    """
+
     def __init__(self, iter: Iterator[T], counter: int = -1) -> None:
+        """
+        Initialise `self`.
+
+        Arguments :
+
+            iter - Un itérateur de la grille de sudoku.
+
+            counter - Spécifie que `iter` pointe vers le `counter`-ième élément
+            du carré.
+        """
+
         self.iter    = iter
         self.counter = counter
 
